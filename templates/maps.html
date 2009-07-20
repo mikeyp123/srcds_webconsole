@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Location</title>
+    <script src="http://maps.google.com/maps?file=api&v=2&key=#{$app->config('google', 'maps_api_key')}#"
+      type="text/javascript"></script>
+    <style type="text/css">
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      #distance {
+        font-size: 12px;
+      }
+      v\:* {
+        behavior:url(#default#VML);
+      }
+    </style>
+    <script type="text/javascript">
+    //<![CDATA[
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var defaultzoom = 13;
+        var map = new GMap2(document.getElementById("map"));
+        var client = new GLatLng(#{$client.latitude}#, #{$client.longitude}#);
+        var clienticon = new GIcon();
+        clienticon.image = 'static/images/map_client.gif';
+        clienticon.iconSize = new GSize(32, 32);
+        clienticon.iconAnchor = new GPoint(16, 32);
+        var mkclient = new GMarker(client, clienticon);
+        #{if $server && $server.latitude && $server.longitude}#
+          var center = new GLatLng(#{$center.latitude}#, #{$center.longitude}#);
+          var server = new GLatLng(#{$server.latitude}#, #{$server.longitude}#);
+          var servericon = new GIcon();
+          servericon.image = 'static/images/map_server.gif';
+          servericon.iconSize = new GSize(32, 32);
+          servericon.iconAnchor = new GPoint(16, 32);
+          var distance = server.distanceFrom(client);
+          if (navigator.userAgent.indexOf("Firefox") > -1) {
+            document.getElementById("distance").textContent = "#{'distance'|translate}#: " + Math.round(distance / 10) / 100 + "km";
+          } else {
+            document.getElementById("distance").innerText = "#{'distance'|translate}#: " + Math.round(distance / 10) / 100 + "km";
+          }
+          var mkserver = new GMarker(server, servericon);
+          map.setCenter(center, 13);
+          map.addOverlay(new GPolyline([server, client], "#ff0000"));
+          map.addOverlay(mkclient);
+          map.addOverlay(mkserver);
+          for (var i = defaultzoom; i >= 0; i--) {
+            var area = map.getBounds();
+            if (area.contains(client) && area.contains(server)) {
+                break;
+            } else {
+                map.setZoom(i);
+            }
+          }
+        #{else}#
+          map.setCenter(client, 7);  //show client only.
+          map.addOverlay(mkclient);
+        #{/if}#
+        ctrlObj = new GSmallZoomControl();
+        map.addControl(ctrlObj);
+      }
+    }
+    //]]>
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <div id="distance"></div>
+    <div id="map" style="width: 380px; height: 250px"></div>
+  </body>
+</html>

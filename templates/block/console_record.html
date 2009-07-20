@@ -1,0 +1,21 @@
+#{strip}#
+<span class="contentHeader">
+  #{$section.title|translate:"`$identifier`_title"}#
+</span>
+<div class="rconInterface">
+  #{if $app->is_recording()}#
+    <a href="#{$do_rcon_page}#?action=#{$identifier}#&amp;control=stop" class="alphaLink">
+      #{$section.label_stop|translate:"`$identifier`_stop"}#
+    </a><br />
+  #{else}#
+    <a href="#{$do_rcon_page}#?action=#{$identifier}#&amp;control=start" class="alphaLink">
+      #{$section.label_start|translate:"`$identifier`_start"}#
+    </a><br />
+    #{if $section.exec_with_start}#
+      <a href="#{$do_rcon_page}#?action=#{$identifier}#&amp;control=start_ex" class="alphaLink">
+        #{$section.label_start_ex|translate:"`$identifier`_start_ex"}#
+      </a><br />
+    #{/if}#
+  #{/if}#
+</div>
+#{/strip}#

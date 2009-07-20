@@ -1,0 +1,25 @@
+#{strip}#
+  <form id="themeSelectForm" action="#{$do_settheme_page}#" method="post">
+    <div>
+      #{if $referer}#
+        <input type="hidden" name="referer" value="#{$referer}#" />
+      #{/if}#
+      Theme:
+      <select name="t" id="themeSelector">
+        #{assign var="current_theme" value=$app->current_theme()}#
+        #{foreach from=$app->theme_list() item="theme"}#
+          <option id="themeopt_#{$theme}#" value="#{$theme}#"#{if $theme == $current_theme}# selected="selected"#{/if}#>#{$theme}#</option>
+        #{/foreach}#
+      </select>
+    </div>
+  </form>
+#{/strip}#
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+    $('#themeSelector').change(function(){
+        $('#themeSelectForm').submit();
+    });
+});
+//]]>
+</script>

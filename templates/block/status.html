@@ -1,0 +1,112 @@
+#{assign var="theme" value=$app->current_theme()}#
+#{strip}#
+  <div id="statusContainer">
+    #{if $info}#
+      <span class="contentHeader serverTitle">
+        #{$info.name}#
+        #{if $info.serversecure}#
+          <img src="themes/#{$theme}#/images/secure.gif" alt="secure" title="secure" class="icon" />
+        #{/if}#
+        #{if $info.serverlocked}#
+          <img src="themes/#{$theme}#/images/locked.gif" alt="locked" title="locked" class="icon" />
+        #{/if}#
+        #{if $app->is_recording()}#
+          <img src="themes/#{$theme}#/images/recording.gif" alt="recording" title="recording" class="icon" />
+        #{/if}#
+      </span>
+      <div id="serverStatus">
+        <div id="mapImage">
+          #{assign var="map_image" value=$app->map_image($info.map)}#
+          #{if $map_image}#
+            <img src="#{$map_image}#" />
+          #{else}#
+            No Image.
+          #{/if}#
+        </div>
+        <div id="serverInfo">
+          &raquo;&nbsp;<a class="alphaLink" href="#{$app->connect_scheme()}#">#{'Join Server'|translate}#</a><br />
+          #{if $info.tv_port}#
+            &raquo;&nbsp;<a class="alphaLink" href="#{$app->connect_scheme($info.tv_port)}#">#{'Source TV'|translate}#</a>
+            <span style="font-size: 8pt;">&nbsp;(#{'delay'|translate:'tv_delay'}#: #{$info.tv_delay}# #{'sec'|translate:'tv_delay_sec'}#)</span><br />
+          #{/if}#
+          
+          #{'Map'|translate}#: <span id="currentMap">#{$info.map}#</span><br />
+          #{'Players'|translate}#: #{$info.totalplayers}#/#{$info.maxplayers}#
+          #{if $info.maxbots}# (#{$info.maxbots}#Bot#{if $info.maxbots != 1}#s#{/if}#)#{/if}#<br />
+          #{'Version'|translate}#: #{$info.version}#<br />
+          OS: #{if $info.serveros == 'l'}#Linux#{else}#Windows#{/if}#<br />
+          #{if $app->config('browser', 'allow_to_see_settings', 1)}#
+           &raquo;&nbsp;<a href="#{$rules_page}#" class="thickbox commonLink" title="#{'Server Settings'|translate}#">#{'look-up server settings'|translate}#</a><br />
+          #{/if}#
+        </div>
+        #{if $useage}#
+          <div id="serverUseage">
+            <span class="label">#{'Network Traffic'|translate:'useage_traffic'}#</span><br />
+            In: #{$useage.in|traffic_format}#<br />
+            Out: #{$useage.out|traffic_format}#<br />
+            <span class="label">#{'CPU Useage'|translate:'useage_cpu'}#</span><br />
+            #{$useage.cpu}# %<br />
+            <span class="label">#{'Server FPS'|translate:'useage_fps'}#</span><br />
+            #{$useage.fps}#<br />
+            #{'Uptime'|translate:'useage_uptime'}#: #{$useage.uptime|uptime_format}#<br />
+          </div>
+        #{/if}#
+        <div style="clear: both;"></div>
+      </div>
+      
+      <table id="playerTable">
+        <thead>
+          <tr>
+            <th>#{'Name'|translate:'browser_header_name'}#</th>
+            <th>#{'Frags'|translate:'browser_header_frags'}#</th>
+            <th>#{'SteamID'|translate:'browser_header_steamid'}#</th>
+            <th>#{'Duration'|translate:'browser_header_duration'}#</th>
+            <th>#{'Ping'|translate:'browser_header_ping'}#</th>
+            <th>#{'Loss'|translate:'browser_header_loss'}#</th>
+            <th class="{sorter: false}">#{'Connection'|translate:'browser_header_connection_info'}#</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{foreach from="$players" item="player"}#
+          <tr class="tableRow#{if $player.isbot}# botRow#{/if}#">
+            <td>#{$player.name}#</td>
+            <td>#{$player.kills}#</td>
+            <td>
+              #{if !$player.isbot}#
+                #{if $app->config('demo_module', 'datasource', 'sqlite') != 'file'}#
+                  <a href="#{$demo_page}#?search=#{$player.steamid}#" class="commonLink">#{$player.steamid}#</a>
+                #{else}#
+                  #{$player.steamid}#
+                #{/if}#
+              #{/if}#
+            </td>
+            <td>#{$player.connected}#</td>
+            <td>#{$player.ping}#</td>
+            <td>#{$player.loss}#</td>
+            <td>
+              #{if !$player.isbot}#
+                <a href="#{$connction_info_page}##{$player.server_uid}#" class="thickbox commonLink" title="#{$player.name}#">
+                  #{'view details'|translate}#
+                </a>
+              #{/if}#
+            </td>
+          </tr>
+        #{/foreach}#
+        </tbody>
+      </table>
+      
+      <div id="browserModified">#{'last modified'|translate}#: #{$last_modified|date:$app->modified_date_format()}#</div>
+    #{else}#
+      <span class="warningHeader">
+        #{'Service Unavailable'|translate}#
+      </span>
+      <p>
+        #{if $app->config('browser', 'on_down_message', '')}#
+          #{ $app->config('browser', 'on_down_message')|translate:"on_down_message"|smarty:nodefaults}#
+        #{ else }#
+          #{'could not connect to srcds... if you have permission to access, check your config or source server setting.'|translate:"unavailable_message"}#
+        #{/if}#
+      </p>
+    #{/if}#
+  </div>
+#{/strip}#

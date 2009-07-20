@@ -1,0 +1,25 @@
+#{strip}#
+  <form id="langSelectForm" action="#{$do_setlang_page}#" method="post">
+    <div>
+      #{if $referer}#
+        <input type="hidden" name="referer" value="#{$referer}#" />
+      #{/if}#
+      Language:
+      <select name="l" id="langSelector">
+        #{assign var="current_language" value=$app->current_language()}#
+        #{foreach from=$app->lang_list() item="lang"}#
+          <option id="langopt_#{$lang}#" value="#{$lang}#"#{if $lang == $current_language}# selected="selected"#{/if}#>#{$lang}#</option>
+        #{/foreach}#
+      </select>
+    </div>
+  </form>
+#{/strip}#
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+    $('#langSelector').change(function(){
+        $('#langSelectForm').submit();
+    });
+});
+//]]>
+</script>

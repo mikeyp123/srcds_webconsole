@@ -1,0 +1,421 @@
+[srcds]
+; ソースサーバ(以下、SRCDS)のIPかホストネームを指定します。
+; 訪問者が接続するのに使用するため、グローバルIPにしてください。
+hostname = ""
+
+; SRCDSのポート (デフォルト: 27015)
+port = 27015
+
+; Rconのパスワード
+; このパスワードを間違えているとWebconsoleがSRCDSにBANされてしまうのでご注意ください。
+rcon_password = ""
+
+; SourceTVの名前。この設定は hide_cameraman = 1 の場合のみ参照されます。
+; この設定はそれほど重要ではありません。
+source_tv_name = ""
+
+
+[localnet]
+; If SRCDS and Web server are located in the same LAN,
+; set private IP of SRCDS here. This will be used on Webconsole to SRCDS connection.
+; もしSRCDSとWebサーバ(このアプリケーションを設置するサーバ)が
+; 同じLAN内にある場合、SRCDSのプライベート IPを記入してください。
+; これは、WebconsoleがSRCDSに接続するために使用されます。
+srcds_ip = ""
+
+; Local Network Address
+; LANのネットワークアドレス
+; 例) 192.168.0.0/255.255.255.0
+network = ""
+
+
+[connection]
+; WebconsoleとSRCDS間の接続方式を指定します。
+; "file", "ftp", "ssh" の3種類が指定可能です。(sshは非推奨)
+; sshを使用する場合、以下のライブラリが必要になります。
+; libssh2 + PECL::ssh2 extension(Linuxの場合) / php_ssh2.dll(Windowsの場合)
+connection_method = "ftp"
+
+; cstrikeディレクトリのパス
+; FTPを使用する場合、ログインルートからのパスを記入してください
+cstrike_path = "/path/to/cstrike"
+
+
+[ftp]
+; このセクションは connection_method の設定が "ftp" の場合のみ参照されます。
+; SRCDSが稼動しているホストにFTPサーバを準備しておく必要があります。
+
+; FTPのユーザ名
+ftp_username = ""
+
+; FTPのパスワード
+ftp_password = ""
+
+; PASVモードを使うかどうか
+ftp_pasv = 0
+
+; FTPのポート(接続用)
+ftp_port = 21
+
+; FTPの転送モード
+mode = FTP_BINARY
+
+[ssh]
+; このセクションは connection_method の設定が "ssh" の場合のみ参照されます。
+; SRCDSが稼動しているホストにSSHサーバを準備しておく必要があります。
+
+; SSH の認証タイプ
+;  password - パスワード認証
+;  pubkey - 公開鍵認証
+;  hostbase - ホストベース認証
+;  none - 'none'認証
+ssh_auth_type = "password"
+
+; SSHのポート
+ssh_port = 22
+
+; SSHのユーザ名
+ssh_username = "" 
+
+; SSHパスワード (パスワード認証の場合)
+ssh_password = "" 
+
+; SSH公開鍵ファイル (フルパス)
+ssh_pubkeyfile = "/fullpath/to/pubkey"
+
+; SSH秘密鍵ファイル (フルパス)
+ssh_privkeyfile = "/fullpath/to/privkey"
+
+; 秘密鍵のパスフレーズ (なければ空)
+passphrase = ""
+
+; ホストネーム (ホストベース認証に使用)
+hostname = ""
+
+; ホストユーザ名 (ホストベース認証に使用)
+local_username = "" 
+
+
+[demo_module]
+; demoモジュールを使用するかどうか(0/1)
+; demoモジュールは SourceTVのデモの管理を行うモジュールです。
+; このモジュールを使用するためには、SRCDS側の設定が
+;   tv_enable 1
+;   tv_autorecord 0
+; また、このWebconsoleと、SRCDSが稼動するサーバ間で
+; ftp や ssh, 又はファイルシステム等で接続可能である必要があります。
+enable = 1
+
+; Use cron job for transfer process(1) or not(0).
+; This requires command-line interpreter version(CLI) of PHP.
+; When 0, transfer process will be triggered by web access.
+; 0 is not recommended, so you should make effort to use cron job.
+; example) running transfer process every minutes.
+;   * * * * * /usr/bin/php5 /var/www/html/webconsole/script/move_demo.php
+; デモの転送処理に cron を設定するかどうか(0/1)
+; この設定にはインタプリタ版(CLI) PHPが必要です
+; cronを使用しない場合、 webアクセスをトリガーとして転送処理を行いますが、推奨ではありません。
+; 例) 毎分転送処理を行う
+;   * * * * * /usr/bin/php5 /var/www/html/webconsole/script/move_demo.php
+use_cron = 1
+
+; デモファイルのメタデータを保存する方法
+; "sqlite", "mysql", "file" が指定可能です。
+;   sqlite を使用するには sqlite(2.x)とPHP-sqlite エクステンションが必要になります
+;   mysql - MySQL(4.1以上推奨) と PHP-mysql エクステンションが必要になります
+;   file - 何も必要としませんが、プレイヤー名やStemIDでの検索ができなくなります。
+datasource = "sqlite" ; sqlite or mysql or file
+
+; デモのダウンロードを許可するかどうか
+allow_download = 1
+
+; SRCDSが稼動しているホストにデモを残すかどうか
+; 0の場合、転送完了後にSRCDS側のデモファイルを削除します。
+; そのため、Webconsoleがデモを削除できる権限が必要になります。
+keep_demo_in_srcds = 0
+
+; デモの振り分けルール
+separate_directory_by = "month" 
+
+; 入れ子のディレクトリを生成するかどうか。
+; 1の場合、以下のように保存されます
+;   /2007/10/foobar.dem
+; 0の場合、以下のように保存されます
+;   /200710/foobar.dem
+create_nested_directory = 1
+
+; デモファイルに対して実行するシェルコマンド(圧縮など)
+; 転送完了後に実行されます。
+;extended_command = "/bin/bzip2 -9 -q"
+
+; 圧縮されたファイルの拡張子
+compressed_ext = ".bz2"
+
+; 圧縮されたデモファイルの mime-type
+compressed_mime_type = "application/x-bzip2"
+
+; 検索フォームのセレクトボックスに表示する始めの年
+search_start_year = 2007  ; year or minus number
+
+; 表示時間のフォーマット(PHP date()の引数)
+list_datetime_format = "y-m-d g:i a"
+
+; 検索結果をハイライトするかどうか
+highlight_search_result = 1
+
+
+[sqlite]
+; SQLiteの設定
+; このファイルは書き込み可能である必要があります。
+sqlite_db = "./var/db/webconsole.db"
+
+
+[mysql]
+; MySQLサーバ
+; MySQLのポートがデフォルト(3306)でない場合、ip:port 形式を使用できます。
+mysql_host = ""
+
+; MySQLのユーザ名
+mysql_user = ""
+
+; MySQLのパスワード　
+mysql_password = ""
+
+; データベース名
+mysql_database = ""
+
+; 接続ごとに 'set names' のクエリを送信するかどうか
+mysql_set_charset_utf8 = 1
+
+
+[localization]
+; タイムゾーンの設定 (例: "Asis/Tokyo")
+timezone = "Asis/Tokyo"
+
+; デフォルトの言語
+default_langage = "japanese"
+
+; ユーザー毎に言語設定を可能にする
+personalize_language = 1
+
+; 言語リスト(personalize_language = 1 の時に使用)
+lang_list = "english, japanese"
+
+; 言語設定を保存するクッキー名
+lang_cookie_name = "wc_lang"
+
+; クッキーの保存時間(日)
+lang_cookie_ttl = 3650 ; days
+
+
+[themes]
+; デフォルトのテーマ
+default_theme = "steam"
+
+; ユーザー毎にテーマの設定を可能にする
+personalize_theme = 0
+
+; 選択可能なテーマのリスト(personalize_theme = 1 の時に使用)
+theme_list = "olivedrab, sand, simple, steam"
+
+; テーマ設定を保存するクッキー名
+theme_cookie_name = "wc_theme"
+
+; クッキーの保存時間(日)
+theme_cookie_ttl = 3650 ; days
+
+
+[rcon]
+; 管理者のIP
+; このIPからの操作の場合、 Rcon操作の制限を無視します。
+; 記入例)
+;   admin_ips = "192.168.0.2"  (単体IP)
+;   admin_ips = "192.168.0.0/24"  (ネットワーク指定)
+;   admin_ips = "192.168.0.0/255.255.255.0"  (この形式のネットマスクも可)
+;   admin_ips = "192.168.0.0/24, 192.168.1.0/255.255.255.0" (2つ以上指定も可)
+admin_ips = "127.0.0.1"
+
+; Rcon操作の最小間隔
+; ユーザは次の操作まで少なくともこの秒数は待たなければなりません。
+action_intervals = 10
+
+; その他
+server_status_intervals = 15 ; second
+result_fadeout_speed = 6 ; second
+result_cookie_name = "wc_result"
+result_cookie_ttl = 5 ;
+
+; 接続のタイムアウト秒数
+socket_timeout = 5
+
+; 接続リトライ回数
+socket_retries = 0
+
+[html]
+; このアプリケーションを設置する絶対URL
+; リダイレクトが正常に動作しない場合、設定してください。
+absolute_path = "" 
+
+; IE6.0のjavascriptメモリリーク対策
+; この秒数でリロード
+refresh = "600" ;
+
+; HTMLの<meta>タグ
+author = ""
+keywords = ""
+description = ""
+
+
+[browser]
+; サーバ設定を閲覧できるリンクを表示
+allow_to_see_settings = 1
+
+; SRCDSの状態を表示
+get_server_useage = 1 ;
+
+; サーバブラウザのソート列
+; 数値は 0から始まるindexのナンバー
+default_sort_col = 1
+
+; 逆順にするかどうか
+desc = 1
+
+; サーバブラウザのアップデート間隔
+update_intervals = 20
+
+; BOTを表示するかどうか
+display_bot = 1
+
+; ソースTVのカメラマンを表示するかどうか
+; display_bot = 0 の場合、この設定は無視されます。
+hide_cameraman = 1
+
+; プレイヤのホスト名を表示するかどうか
+show_host = 1
+
+; show_host =1 の場合、プライベートIPをグローバルIPに変換するかどうか
+convert_local_ip = 1
+
+; '最終更新'の日付フォーマット。PHP date()の引数
+modified_date_format = "D, d M Y H:i:s T"
+
+; プレイヤーの位置情報を表示するかどうか
+; see 'geoip' section.
+show_loaction = 1
+
+; サーバダウンのときに表示するメッセージ
+; 'on_down_message'で翻訳可能
+on_down_message = ""
+
+[dns]
+; IPからホスト名を得る(逆引き参照)
+get_hostname_by_ip = 1
+
+; 逆引き参照のデフォルトTTL(秒)
+default_ttl = 43200
+
+; DNSサーバからTTLを取得する
+; (この設定は PHP5以上 かつ Linux限定です)
+depend_on_dns_ttl = 0
+
+
+[geoip]
+; IP位置情報のための設定
+
+; WebAPI (hostip.info) を参照する
+use_webapi = 1
+webapi_uri = "http://api.hostip.info/get_html.php?position=true&ip="
+
+; 結果のキャッシュ期間(秒)
+webapi_cache_ttl = 259200
+
+; SRCDSの場所(緯度,経度)
+; 空の場合、global IPから設定された方法で位置情報を取得します
+server_latitude = ""
+server_longitude = ""
+
+
+[google]
+; google maps のAPIキー.
+; 空の場合、マップは表示されません
+maps_api_key = ""
+
+
+;
+; その他のアプリケーション設定
+; 通常、ここから下は変更しないでください！
+;
+
+[file_layout]
+html_dir = "./html"
+log_dir = "./var/log"
+tmp_dir = "./var/tmp"
+cache_dir = "./var/cache"
+dem_dir = "./var/demo"
+directory_mask = "0777"
+
+
+[static_files]
+; must be under html_dir.
+map_image_dir = "static/images/maps"
+map_image_ext = ".jpg"
+map_no_image_file = "no-image.jpg"
+flag_image_dir = "static/images/flags"
+flag_image_ext = ".gif"
+
+
+[log]
+; generate logfile.
+enable = 1
+level = "all"  ; ( all | warn | info )
+combine_log = 1
+separate_log_by_day = 1
+log_datetime_format = "Y/m/d H:i:s"  ; arguments for PHP::date()
+create_mask = "0777"
+
+
+[smarty]
+left_delimiter = "#{"
+right_delimiter = "}#"
+caching = 0
+debugging = 0
+template_dir = "./templates"
+compile_dir = "./var/template_c"
+cache_dir = "./var/cache/smarty"
+default_modifiers = "default_escape, default:''"
+plugins_dir = "./lib/includes/smarty/plugins, ./lib/smarty_plugins"
+
+
+[smarty_vars]
+top_page = "index.php"
+demo_page = "demo.php"
+status_page = "async/status.php"
+rules_page = "async/rules.php?width=240"
+connction_info_page = "async/connection_info.php?suid="
+do_rcon_page = "do/rcon.php"
+do_setlang_page = "do/setlang.php"
+do_settheme_page = "do/settheme.php"
+demo_dl_page = "do/download.php?d="
+
+
+[valve]
+default_port = 27015
+connect_scheme = "steam://connect/"
+cfg_comment_delimiter = "//"
+maplist_filename = "maplist.txt"
+command_terminator = ";"
+demo_file_ext = ".dem"
+
+
+[application]
+debug = 0
+product_name = "srcds web console"
+version = "0.6.4"
+license = "MIT"
+author = "Masayuki Hamasaki"
+charset = "UTF-8"
+smarty_version = "2.6.18"
+jQuery_version = "1.1.3.1"
+Tablesorter_version = "2.0"
+ThickBox_version = "3.1"
+

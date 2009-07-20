@@ -1,0 +1,410 @@
+[srcds]
+; SRCDS IP or hostname. This should be global IP. 
+; A visitor will use this IP to connect.
+hostname = ""
+
+; SRCDS port (Valve's default: 27015)
+port = 27015
+
+; rcon_password of SRCDS
+; Be careful! wrong password will bring webconsole to BAN.
+rcon_password = ""
+
+; SourceTV cameraman's name. it will be used when hide_cameraman = 1.
+; This is not so important.
+source_tv_name = ""
+
+
+[localnet]
+; If SRCDS and Web server are located in the same LAN,
+; set private IP of SRCDS here. This will be used on Webconsole to SRCDS connection.
+srcds_ip = ""
+
+; Local Network Address
+; e.g) 192.168.0.0/255.255.255.0
+network = ""
+
+
+[connection]
+; Connection method between Webconsole and SRCDS
+; "file" or "ftp" or "ssh" are useable.
+; "ssh" requires libssh2 + PECL::ssh2 extension(Linux) / php_ssh2.dll(Windows)
+; "ssh" is not our recommendation.(It seemes unstable)
+connection_method = "ftp"
+
+; path to "cstrike" directory.
+; with FTP, the path should to be from login root.
+cstrike_path = "/path/to/cstrike"
+
+
+[ftp]
+; This section only used when connection method is "ftp"
+; You have to prepare FTP server at SRCDS host.
+
+; FTP username
+ftp_username = ""
+
+; FTP password
+ftp_password = ""
+
+; using PASV mode(1) or not(0)
+ftp_pasv = 0
+
+; FTP port to connection.
+ftp_port = 21
+
+; FTP transfer mode.
+mode = FTP_BINARY
+
+[ssh]
+; This section only used when connection method is "ssh"
+; You have to prepare SSH server at SRCDS host.
+
+; SSH authentication type
+;  password - password authentication.
+;  pubkey - public key authentication.
+;  hostbase - hostbase authentication.
+;  none - noauthentication.(not recommended)
+ssh_auth_type = "password"
+
+; SSH port
+ssh_port = 22
+
+; SSH username
+ssh_username = "" 
+
+; SSH password (password auth)
+ssh_password = "" 
+
+; SSH public key file (fullpath)
+ssh_pubkeyfile = "/fullpath/to/pubkey"
+
+; SSH private key file (fullpath)
+ssh_privkeyfile = "/fullpath/to/privkey"
+
+; passphrase for private key (optional)
+passphrase = ""
+
+; hostname (optional, used for hostbase authentication)
+hostname = ""
+
+; username (optional, used for hostbase authentication)
+local_username = "" 
+
+
+[demo_module]
+; Want to use demo module(1) or not(0)
+; This module can manage sourceTV demofile. (Display demofiles, search player, and more...)
+; To use this module, you have to set following cvars in SRCDS,
+;   tv_enable 1
+;   tv_autorecord 0
+enable = 1
+
+; Use cron job for transfer process(1) or not(0).
+; This requires command-line interpreter version(CLI) of PHP.
+; When 0, transfer process will be triggered by web access.
+; 0 is not recommended, so you should make effort to use cron job.
+; example) running transfer process every minutes.
+;   * * * * * /usr/bin/php5 /var/www/html/webconsole/script/move_demo.php
+use_cron = 1
+
+; Datasource to keep meta-data of demofile.
+; "sqlite" or "mysql" or "file" is useable.
+;   sqlite - requires sqlite(2.x) and sqlite-PHP bindings(extension).
+;   mysql - requires MySQL(recommended 4.1+) and mysql-PHP bindings.
+;   file - nothing required, but cannot search player in demofiles.
+datasource = "sqlite" ; sqlite or mysql or file
+
+; Allow to download demofile?
+allow_download = 1
+
+; keep demofiles in secds?
+; In 0, a demofile will remove after completed transfer.
+; so Webconsole must have premission to delete demofile.
+keep_demo_in_srcds = 0
+
+; rule for directory to keep demofiles.
+separate_directory_by = "month" 
+
+; when 1, demofiles will be saved like
+;   /2007/10/foobar.dem
+; when 0, demofiles will be saved like
+;   /200710/foobar.dem
+create_nested_directory = 1
+
+; shell command to processing any task (like compress) to every demofile.
+; this will be executed after completed transfer.
+;extended_command = "/bin/bzip2 -9 -q"
+
+; compressed ext
+compressed_ext = ".bz2"
+
+; compressed file's mime type(used on download)
+compressed_mime_type = "application/x-bzip2"
+
+; first year for date search form
+search_start_year = 2007  ; year or minus number
+
+; datetime format. This is the same as php date()'s arguments.
+list_datetime_format = "y-m-d g:i a"
+
+; highlight search result or not
+highlight_search_result = 1
+
+
+[sqlite]
+; sqlite dbfile
+; DB file must be writeable.
+sqlite_db = "./var/db/webconsole.db"
+
+
+[mysql]
+; MySQL server host
+; If port is not default(3306) you can also use ip:port.
+mysql_host = ""
+
+; MySQL username
+mysql_user = ""
+
+; MySQL password
+mysql_password = ""
+
+; Database name.
+mysql_database = ""
+
+; send 'set names' query on every connection
+mysql_set_charset_utf8 = 1
+
+
+[localization]
+; timezone (like "Asis/Tokyo")
+timezone = ""
+
+; default language.
+default_langage = "english"
+
+; Allow user to select language
+personalize_language = 1
+
+; Language list(used when personalize_language = 1)
+lang_list = "english, japanese"
+
+; cookie name for language setting
+lang_cookie_name = "wc_lang"
+
+; cookie ttl for language setting
+lang_cookie_ttl = 3650 ; days
+
+
+[themes]
+default_theme = "steam"
+
+; Allow user to select theme
+personalize_theme = 0
+
+; Themes list (used when personalize_theme = 1)
+theme_list = "olivedrab, sand, simple, steam"
+
+; cookie name for theme setting
+theme_cookie_name = "wc_theme"
+
+; cookie ttl for theme setting
+theme_cookie_ttl = 3650 ; days
+
+
+[rcon]
+; admin's IP
+; If Visitor matches this IPs, ignore access limitation of Webconsole.
+; example)
+;   admin_ips = "192.168.0.2"  (single IP)
+;   admin_ips = "192.168.0.0/24"  (IP with netmask)
+;   admin_ips = "192.168.0.0/255.255.255.0"  (Another netmask format acceptable)
+;   admin_ips = "192.168.0.0/24, 192.168.1.0/255.255.255.0" (and List acceptable!)
+admin_ips = "127.0.0.1"
+
+; Rcon control interval
+; Visitors must wait this seconds for next operation.
+action_intervals = 10
+
+; other interval settings
+server_status_intervals = 15 ; second
+result_fadeout_speed = 6 ; second
+result_cookie_name = "wc_result"
+result_cookie_ttl = 5 ;
+
+; socket timeout second(s)
+socket_timeout = 5
+
+; times to retry connect.
+socket_retries = 0
+
+[html]
+; abusolute path for Webconsole's URL.
+; If redirect not work, set this.
+absolute_path = "" 
+
+; Countermeasure javascript memory leak. (mainly IE6.0)
+; After this seconds, browser will be reloaded.
+refresh = "600" ;
+
+; html meta tag contents.
+author = ""
+keywords = ""
+description = ""
+
+
+[browser]
+; When 1, show link to watch public setting. 
+allow_to_see_settings = 1
+
+; Get and display SRCDS's useage.
+get_server_useage = 1 ;
+
+; Default sort rule for server browser.
+; This means column index (index starts with 0)
+default_sort_col = 1
+
+; Want to show descending list on default?
+desc = 1
+
+; Server browser will be update every this seconds
+update_intervals = 20
+
+; show bots?
+display_bot = 1
+
+; Show sourceTV cameraman? 
+; When display_bot = 0, this value will be ignored.
+hide_cameraman = 1
+
+; Show players hostname?
+show_host = 1
+
+; When show_host = 1, convert private IP to global IP?
+; see "localnet" section.
+convert_local_ip = 1
+
+; String format for 'last modified'
+; This is the same as php date()'s arguments.
+modified_date_format = "D, d M Y H:i:s T"
+
+; Show players location?
+; using hostip.info or PHP GeoIP extension.
+; see 'geoip' section.
+show_loaction = 1
+
+; message to want to display on server down.
+; This can be translate by 'on_down_message'
+on_down_message = ""
+
+[dns]
+; Get hostname from IP.(reverse lookup)
+get_hostname_by_ip = 1
+
+; Cache ttl for DNS response.(seconds)
+default_ttl = 43200
+
+; Follow real TTL from DNS?
+; PHP5.0+ and Linux only
+depend_on_dns_ttl = 0
+
+
+[geoip]
+; setting for players location from IP.
+
+; use WebAPI(hostip.info)?
+use_webapi = 1
+webapi_uri = "http://api.hostip.info/get_html.php?position=true&ip="
+
+; result cache ttl(seconds)
+webapi_cache_ttl = 259200
+
+; SRCDS location.(latitude and longitude)
+; If empty, will use defined method to SRCDS's IP.
+server_latitude = ""
+server_longitude = ""
+
+
+[google]
+; google maps API key.
+; if empty, map will not be displayed.
+maps_api_key = ""
+
+
+;
+; application setting.
+; don't change the under from here normally.
+;
+[file_layout]
+html_dir = "./html"
+log_dir = "./var/log"
+tmp_dir = "./var/tmp"
+cache_dir = "./var/cache"
+dem_dir = "./var/demo"
+directory_mask = "0777"
+
+
+[static_files]
+; must be under html_dir.
+map_image_dir = "static/images/maps"
+map_image_ext = ".jpg"
+map_no_image_file = "no-image.jpg"
+flag_image_dir = "static/images/flags"
+flag_image_ext = ".gif"
+
+
+[log]
+; generate logfile.
+enable = 1
+level = "all"  ; ( all | warn | info )
+combine_log = 1
+separate_log_by_day = 1
+log_datetime_format = "Y/m/d H:i:s"  ; arguments for PHP::date()
+create_mask = "0777"
+
+
+[smarty]
+left_delimiter = "#{"
+right_delimiter = "}#"
+caching = 0
+debugging = 0
+template_dir = "./templates"
+compile_dir = "./var/template_c"
+cache_dir = "./var/cache/smarty"
+default_modifiers = "default_escape, default:''"
+plugins_dir = "./lib/includes/smarty/plugins, ./lib/smarty_plugins"
+
+
+[smarty_vars]
+top_page = "index.php"
+demo_page = "demo.php"
+status_page = "async/status.php"
+rules_page = "async/rules.php?width=240"
+connction_info_page = "async/connection_info.php?suid="
+do_rcon_page = "do/rcon.php"
+do_setlang_page = "do/setlang.php"
+do_settheme_page = "do/settheme.php"
+demo_dl_page = "do/download.php?d="
+
+
+[valve]
+default_port = 27015
+connect_scheme = "steam://connect/"
+cfg_comment_delimiter = "//"
+maplist_filename = "maplist.txt"
+command_terminator = ";"
+demo_file_ext = ".dem"
+
+
+[application]
+debug = 0
+product_name = "srcds web console"
+version = "0.6.4"
+license = "MIT"
+author = "Masayuki Hamasaki"
+charset = "UTF-8"
+smarty_version = "2.6.18"
+jQuery_version = "1.1.3.1"
+Tablesorter_version = "2.0"
+ThickBox_version = "3.1"
+

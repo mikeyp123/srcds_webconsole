@@ -1,0 +1,26 @@
+#{assign var="current_value" value=$app->builder->getCurrentValueForSwitch($identifier)}#
+#{strip}#
+<form action="#{$do_rcon_page}#" id="consoleForm_#{$identifier}#" method="post">
+  <div>
+    <span class="contentHeader">
+      #{$section.title|translate:"`$identifier`_title"}#
+    </span>
+    <input type="hidden" name="action" value="#{$identifier}#" />
+    <div class="rconInterface">
+      <input type="radio" class="consoleRadio_#{$identifier}#" name="val" value="0" id="#{$identifier}#_off"#{if $current_value == 0}# checked="checked"#{/if}# />
+      <label for="#{$identifier}#_off"><span style="margin-left: 3px;">#{$section.text_off|translate:"`$identifier`_text_off"}#</span></label><br />
+      <input type="radio" class="consoleRadio_#{$identifier}#" name="val" value="1" id="#{$identifier}#_on"#{if $current_value == 1}# checked="checked"#{/if}# />
+      <label for="#{$identifier}#_on"><span style="margin-left: 3px;">#{$section.text_on|translate:"`$identifier`_text_on"}#</span></label><br />
+    </div>
+  </div>
+</form>
+#{/strip}#
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+    $('.consoleRadio_#{$identifier}#').change(function(){
+        $('#consoleForm_#{$identifier}#').submit();
+    });
+});
+//]]>
+</script>

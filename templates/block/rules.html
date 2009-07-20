@@ -1,0 +1,11 @@
+#{strip}#
+  <p>
+    #{if $rules}#
+      #{foreach from="$rules" key="varname" item="value"}#
+        #{$varname}# = #{$value}#<br />
+      #{/foreach}#
+    #{else}#
+      could not get server setting this time.<br />
+    #{/if}#
+  </p>
+#{/strip}#

@@ -1,0 +1,141 @@
+#{assign var="theme" value=$app->current_theme()}#
+#{include file="block/header.html"}#
+
+<body>
+
+<script type="text/javascript">
+//<![CDATA[
+var sortRule = [];
+var defaultRule = [#{$app->config('browser', 'default_sort_col', 0)}#, #{$app->config('browser', 'desc', 0)}#];
+
+var browse = function() {
+  sortRule = [];
+  $(".headerSortDown").each(function() {
+    sortRule.push([this.cellIndex, 0])
+  });
+  $(".headerSortUp").each(function() {
+    sortRule.push([this.cellIndex, 1])
+  });
+  if (sortRule.length < 1) {
+    sortRule.push(defaultRule);
+  }
+  $.get("#{$status_page}#", function(text){
+    #{if $app->update_intervals()}#
+    $.ajaxTimeout(#{$app->update_intervals()}#);
+    #{/if}#
+    $("#serverBrowser").html(text);
+    if ($(".mapSelector").html()) {
+      var currentMap = $("#currentMap").text();
+      $(".mapOption_" + currentMap).attr('selected', 'selected');
+    }
+    init_table();
+  });
+};
+var init_table = function() {
+  tb_init('a.thickbox, area.thickbox, input.thickbox'); //re-init thickbox.
+  $("#playerTable").tablesorter();
+  $("#playerTable").trigger("sorton", [sortRule]);
+  $(".tableRow").each(function(){
+    $(this).hover(
+      function(){
+        $(this).addClass("focused");
+      },
+      function () {
+        $(this).removeClass("focused");
+      }
+    );
+  });
+};
+$(browse);
+#{if $app->update_intervals()}#
+var reloader = setInterval(browse, #{$app->update_intervals()}#);
+#{/if}#
+#{if $err || $ret}#
+$(function(){
+  $("#contentInfo").before(
+    #{strip}#
+    '<div id="rcon#{if $ret}#Return#{elseif $err}#Error#{/if}#">
+       <span class="roundedSubTopLeft"></span>
+       <div id="messageResult" class="rcon#{if $ret}#Return#{elseif $err}#Error#{/if}#">
+         #{if $err}#
+           #{"error_`$err`"|translate|js_safe_string}#
+         #{elseif $ret}#
+           #{$app->set_builder()}#
+           #{$app->builder->getLastExecutedTime()|date:"H:i:s"}#
+           &nbsp;-&nbsp;
+           #{$app->builder->getResult($ret)|translate|js_safe_string}#
+         #{/if}#
+       </div>
+     </div>
+     <div id="rightSeparator"></div>'
+    #{/strip}#
+  );
+  #{if $app->result_fadeout_speed()}#
+  $("#rcon#{if $ret}#Return#{elseif $err}#Error#{/if}#").fadeOut(#{$app->result_fadeout_speed()}#, function(){
+    $("#rightSeparator").remove();
+  });
+  #{/if}#
+});
+#{/if}#
+//]]>
+</script>
+
+<div id="mainContainer">
+
+  <div id="header">
+
+    <span class="roundedTopLeft"></span>
+
+    <span class="title">
+      SRCDS<span class="t_accent">WEB</span>CONSOLE
+      <span class="subTitle">
+        #{$app->title_hostname()}#
+      </span>
+    </span>
+
+    #{assign var="show_demopage" value=$app->config('demo_module', 'enable', 1)}#
+    #{if $show_demopage}#
+      <a href="#{$demo_page}#" title="demo" class="lastTab">Demo</a>
+      <a href="#{$top_page}#" title="home" class="active">Home</a>
+    #{else}#
+      <a href="#{$top_page}#" title="home" class="active lastTab">Home</a>
+    #{/if}#
+    
+
+  </div>
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- : rcon menu. -->
+    <div id="contentMenu">
+      <span class="roundedSubTopRight"></span>
+      <div id="rconMenu">
+        #{strip}#
+          #{$app->set_builder()}#
+            #{foreach from=$app->builder->config key="identifier" item="section"}#
+              <div class="rconItem">
+                #{include file="block/console_`$section.module`.html"}#
+              </div>
+            #{/foreach}#
+        #{/strip}#
+      </div>
+    </div>
+
+    <!-- informatin : server status etc.. -->
+    <div id="contentInfo">
+      <span class="roundedSubTopLeft"></span>
+      <div id="serverBrowser">
+         <div style="text-align: center; padding: 30px 0px;"><img src="static/images/loadingAnimationCircle.gif" alt="loading..." /></div>
+      </div>
+    </div>
+    
+  </div>
+
+  #{include file="block/footer.html"}#
+  
+</div>
+
+</body>
+
+</html>

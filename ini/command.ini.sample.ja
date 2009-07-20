@@ -1,0 +1,179 @@
+[changelevel]
+; "changelevel" モジュールの設定です
+; このモジュールは マップの変更を可能にします
+module = "changelevel"
+
+; ソースサーバ(SRCDS)に接続してないユーザが
+; この操作を可能かどうか 0/1
+allow_outer_user = 0
+
+; config.ini の action_intervals(最低操作間隔)を無視するかどうか
+; ここが1の場合、連続で操作が可能になります。
+ignore_interval = 0
+
+; マップリスト
+map_list = "de_dust, de_aztec, de_cbble, de_chateau, de_dust2, de_piranesi, cs_italy, cs_havana, cs_office, de_train, cs_compound, de_prodigy, de_tides, de_port, de_inferno, cs_assault, de_nuke, cs_militia"
+
+; when 1, 'map_list' will be ignored.
+; SRCDS の maplist.txt を取得するかどうか
+; 1の場合 map_list を使用せず、 SRCDS の maplist.txt を参照します。
+use_server_maplist = 0
+
+; SRCDSから maplist.txt を取得する場合のキャッシュ保持時間
+; use_server_maplist = 1の場合のみ使用されます
+maplist_ttl = 3600
+
+; HTML タイトル
+title = "Change map"
+
+; 送信ボタンのラベル
+label = "OK"
+
+; 実行後に表示するメッセージ
+result_message = "Map has been changed."
+
+
+[record]
+; "record" モジュールの設定です
+; このモジュールはソースTVの操作を可能にします。
+; SRCDSの設定を以下のようにする必要があります！
+;   tv_enable 1
+;   tv_autorecord 0
+module = "record"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; 録画開始と同時に実行するコマンド
+exec_with_start = "exec lo3"
+
+; HTML タイトル
+title = "Source TV control"
+
+; 録画開始リンクの文言
+label_start = "Begin to record"
+
+; 録画開始リンク(コマンド同時実行)の文言
+label_start_ex = "Begin to record(with lo3)"
+
+; 録画停止リンクの文言
+label_stop = "Stop recording"
+
+; 録画開始時メッセージ
+result_message_start = "recording sourceTV has been begun."
+
+; 録画停止時メッセージ
+result_message_stop = "recording sourceTV was ended."
+
+; 操作実行後、サーバブラウザをリロードする
+keep_status_cache = 1
+
+
+[lo3]
+; "user" モジュールの設定です
+; 設定した任意のコマンドを実行します
+module = "user"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; 実行するコマンド
+command = "exec lo3"
+
+; HTML タイトル
+title = "Live On Three"
+
+; リンク(またはボタン)のラベル
+label = "Exec lo3 script"
+
+; リンク/ボタンのどちらを使用するか("link" or "button")
+appearance = "link"
+
+; 実行後に表示するメッセージ
+result_message = "lo3 script has been executed."
+
+; 操作実行後、サーバブラウザをリロードする
+keep_status_cache = 1
+
+
+[announce]
+; "announce" モジュールの設定です
+; SRCDS にメッセージを送信します。
+module = "announce"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; HTML タイトル
+title = "Announce"
+
+; 送信ボタンのラベル
+label = "Send"
+
+; 実行後に表示するメッセージ
+result_message = "The messages were sent to server."
+
+; 操作実行後、サーバブラウザをリロードする
+keep_status_cache = 1
+
+
+[command]
+; "command" モジュールの設定です
+; 受け入れ可能な任意のコマンドを実行します。
+module = "command"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; 複数コマンドの同時実行を有効にするか 
+; 1の場合、セミコロンで区切って複数のコマンドを同時に実行することができます。
+allow_plural_commands = 0
+
+; コマンドフィルターのタイプ('blacklist' or 'whitelist').
+;   blacklist -> リストにあるコマンドは使用不可能です。他のコマンドは全て許可されます。
+;   whitelist -> リストにあるコマンドのみ使用可能です。他のコマンドは許可されません。
+filter_type = "blacklist" ; 
+
+; フィルターリスト
+; 正規表現で指定します。(preg_match()に使用)
+filter = "/^sv_cheats/i, /^sv_pauseable/i, /^qu[it]{2}/i, /^exit/i, /^killserver/, /^sv_password/i, /^rcon/i, /^tv/i" ;
+
+; HTML タイトル
+title = "Send command"
+
+; 送信ボタンのラベル
+label = "Send"
+
+; 実行後に表示するメッセージ
+result_message = "The command has been executed."
+
+
+;[switch]
+;; "command" モジュールの設定です
+;; サーバ設定に同期しながら特定の設定を切り替えます。
+;module = "switch"
+
+;allow_outer_user = 0
+;ignore_interval = 0
+
+;; 同期する設定項目
+;; UDPからのリクエストで参照可能な設定のみ指定できます。
+;; config.iniのallow_to_see_settings を有効にすると 設定可能な項目を見ることができます。
+;sync_setting = "sv_cheats"
+
+;; offにするラジオボタンの文言
+;text_off = "cheats-mode off"
+
+;; onにするラジオボタンの文言
+;text_on = "cheats-mode on"
+
+;; 別のコマンドを実行したい場合に使用してください
+;command_on = ""
+;command_off = ""
+
+;; HTML タイトル
+;title = "Switch Cheats-mode"
+
+;; 実行後に表示するメッセージ
+;result_message = "sv_cheats setting has been changed."
+

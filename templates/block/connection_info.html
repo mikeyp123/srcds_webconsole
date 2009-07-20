@@ -1,0 +1,27 @@
+#{strip}#
+  <p>
+    #{if $player && !$player.isbot}#
+      #{'Steam ID'|translate}#: #{$player.steamid}#
+      #{if $player.location && $player.location.country_code}#
+        #{assign var="flag_image" value=$app->flag_image($player.location.country_code)}#
+        #{if $flag_image}#
+          <img src="#{$flag_image}#" alt="#{$player.location.country_code}#" class="flag" />
+        #{/if}#
+      #{/if}#<br />
+      #{'User ID'|translate}#: #{$player.server_uid}#<br />
+      #{if $app->config('browser', 'show_host', 1)}#
+        #{'Host'|translate}#: #{$player.host}#
+        #{if $player.ip != $player.host}#
+          (#{$player.ip}#)
+        #{/if}#<br />
+      #{/if}#
+      #{'Port'|translate}#: #{$player.port}#<br />
+      #{'Ping'|translate}#: #{$player.ping}#ms<br />
+      #{'Loss'|translate}#: #{$player.loss}#<br />
+      #{'Connection Opened'|translate}#: #{$app->connection_opened_date($player.onlinetime)}# (#{'Duration'|translate}#: #{$player.onlinetime}# #{'seconds'|translate}#)<br />
+    #{else}#
+      #{'could not get connection data.'|translate:'conn_info_nodata'}#<br />
+    #{/if}#
+  </p>
+#{/strip}#
+<iframe src="maps.php?latitude=#{$player.location.latitude}#&longitude=#{$player.location.longitude}#" frameborder="0" scrolling="no" style="width: 390px; height: 255px;"></iframe>

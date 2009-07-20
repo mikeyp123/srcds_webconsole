@@ -1,0 +1,177 @@
+[changelevel]
+; Use application provided module "changelevel"
+; This module control changelevel command
+module = "changelevel"
+
+; Allow visitor NOT connected SRCDS to control this module 
+allow_outer_user = 0
+
+; Ignore action_intervals in config.ini setting
+; When 1, visitors can use this module continuously.
+ignore_interval = 0
+
+; Acceptable maplist
+map_list = "de_dust, de_aztec, de_cbble, de_chateau, de_dust2, de_piranesi, cs_italy, cs_havana, cs_office, de_train, cs_compound, de_prodigy, de_tides, de_port, de_inferno, cs_assault, de_nuke, cs_militia"
+
+; Get SRCDS's maplist.txt
+; when 1, 'map_list' will be ignored.
+use_server_maplist = 0
+
+; Cache ttl for maplist
+; Only used when use_server_maplist = 1
+maplist_ttl = 3600
+
+; html menu title
+title = "Change map"
+
+; label of submit button
+label = "OK"
+
+; result message
+result_message = "Map has been changed."
+
+
+[record]
+; Use application provided module "record"
+; This module control sourceTV command.
+; You must set SRCDS like this,
+;   tv_enable 1
+;   tv_autorecord 0
+module = "record"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; extra command when record started.
+exec_with_start = "exec lo3"
+
+; html menu title
+title = "Source TV control"
+
+; html link string to start
+label_start = "Begin to record"
+
+; html link string to start(with extra command)
+label_start_ex = "Begin to record(with lo3)"
+
+; html link string to stop
+label_stop = "Stop recording"
+
+; result message for start 
+result_message_start = "recording sourceTV has been begun."
+
+; result message for stop
+result_message_stop = "recording sourceTV was ended."
+
+; After operation, keep status of server browser?
+keep_status_cache = 1
+
+
+[lo3]
+; Use application provided module "user"
+; This module handles user defination commands.
+module = "user"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; command to execute
+command = "exec lo3"
+
+; html title
+title = "Live On Three"
+
+; label for link or submit button
+label = "Exec lo3 script"
+
+; button appearance "link" or "button"
+appearance = "link"
+
+; result message 
+result_message = "lo3 script has been executed."
+
+; After operation, keep status of server browser?
+keep_status_cache = 1
+
+
+[announce]
+; Use application provided module "annouce"
+; This module handles say command. yes, just say ;p
+module = "announce"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; html menu title
+title = "Announce"
+
+; label for submit button
+label = "Send"
+
+; result message
+result_message = "The messages were sent to server."
+
+; see "record" section in this file
+keep_status_cache = 1
+
+
+[command]
+; Use application provided module "command"
+; This module allows user to execute any acceptable command.
+module = "command"
+
+allow_outer_user = 0
+ignore_interval = 0
+
+; allow_plural_commands ? if 1, user can execute more than one command at once.
+; user must separate semi-colon for every command.
+allow_plural_commands = 0
+
+; command filter type ('blacklist' or 'whitelist').
+;   blacklist -> listed command will be denied. other commands are acceptable.
+;   whitelist -> listed command will be allowed. other commands are NOT acceptable.
+filter_type = "blacklist" ; 
+
+; filter list.
+; regular expression String(used by preg_match())
+filter = "/^sv_cheats/i, /^sv_pauseable/i, /^qu[it]{2}/i, /^exit/i, /^killserver/, /^sv_password/i, /^rcon/i, /^tv/i" ;
+
+; html menu title
+title = "Send command"
+
+; label for submit button
+label = "Send"
+
+; result message
+result_message = "The command has been executed."
+
+
+;[switch]
+;; Use application provided module "switch"
+;; This module allows user to toggle specific setting.
+;module = "switch"
+
+;allow_outer_user = 0
+;ignore_interval = 0
+
+;; A setting for sync.
+;; This setting must referenceable by UDP request.
+;; enable allow_to_see_settings in config.ini to show referenceable settings.
+;sync_setting = "sv_cheats"
+
+;; text label to turn OFF 
+;text_off = "cheats-mode off"
+
+;; text labbel to turn ON
+;text_on = "cheats-mode on"
+
+;; if you want to execute specific command, use this.
+;command_on = ""
+;command_off = ""
+
+;; html menu title
+;title = "Switch Cheats-mode"
+
+;; result message
+;result_message = "sv_cheats setting has been changed."
+

@@ -1,0 +1,475 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: verdana, sans-serif;
+  font-size: 16px;
+  background-color: #EEE;
+  word-break: break-all; /* IE only*/
+}
+
+#mainContainer {
+  float: left;
+  width: 100%;
+  color: #000;
+}
+
+/* Headers */
+#header {
+  float: left;
+  width: 100%;
+  height: 5em;
+  background-color: #356AA0;
+  border-bottom: 3px solid #BCE1F4;
+}
+
+#header a {
+  float: right;
+  width: 8em;
+  padding: 5px 10px;
+  font-size: 0.6em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #113255;
+  background-color: #E7F9FF;
+  border-bottom: 2px solid #BCE1F4;
+  border-left: 1px solid #BCE1F4;
+  background: #E7F9FF;
+}
+
+#header a:hover, #header a.active {
+  background-color: #BCE1F4;
+}
+
+#header a.lastTab {
+}
+
+
+/* title */
+.title {
+  float: left;
+  padding: 1.4em 30px 0 1em;
+  text-align: right;
+  letter-spacing: -0.1em;
+  color: #FFF;
+  font: bold 1.4em/0.75em arial, verdana, sans-serif;
+}
+
+.subTitle {
+  display: block;
+  font-size: 0.55em;
+  line-height: 1.2em;  
+  letter-spacing: 0.01em;
+}
+
+
+/* Main Content */
+#content {
+  float: left;
+  width: 100%;
+  background-color: #FFF;
+  padding: 1em 0 1em 0;
+}
+
+#contentMenu {
+  float: right;
+  width: 23.3%;
+  margin-bottom: 1em;
+}
+
+#contentInfo {
+  float: left;
+  _overflow: hidden; /* for IE6 */
+  width: 75%;
+  border-right: 1px solid #D8EAF3;
+}
+
+#rconReturn {
+  float: left;
+  _overflow: hidden; /* for IE6 */
+  width: 75%;
+  color: #94BA25;
+}
+
+#rconError {
+  float: left;
+  _overflow: hidden; /* for IE6 */
+  width: 75%;
+  color: #BB1111;
+}
+
+#messageResult {
+  display: block;
+  padding-left: 15px;
+  width: 96%;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+
+#rightSeparator {
+  float: left;
+  _overflow: hidden; /* for IE6 */
+  width: 75%;
+  height: 14px;
+  font-size: 1px;
+}
+
+#content p {
+  margin: 1.2em 1.2em 2em 1.2em;
+  font-size: 0.8em;
+  line-height: 1.8em;
+}
+
+#rconMenu {
+  font-size: 0.8em;
+  line-height: 1.4em;
+  padding: 0 14px 14px 14px;
+
+}
+
+.rconItem {
+  padding-bottom: 7px;
+}
+
+#browserPlayers {
+  font-size: 0.8em;
+}
+
+#content a {  
+  text-decoration: none;
+}
+
+#content a:hover {
+  border-bottom: 1px solid #356AA0;
+}
+
+.contentHeader {
+  display: block;
+  font-weight: bold;
+  font-size: 0.8em;
+  color: #6995C2;
+  padding-top: 3px;
+  padding-left: 5px;
+  background-color: #EEEEEE;
+  border-bottom: 1px solid #808183;
+}
+
+.warningHeader {
+  display: block;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #6995C2;
+}
+
+/* Footer */
+#footer {
+  float: left;
+  width: 100%;
+  height: 7em;
+  font-size: 0.6em;
+  color: #DB5D00;
+  background: #EEEEEE;
+  border-top: 2px solid #356AA0;
+}
+
+#footerLeft {
+  float: left;
+  width: 30%;
+  height: 7em;
+  text-align: left;
+}
+
+#footerRight {
+  float: right;
+  width: 60%;
+  height: 7em;
+  text-align: right;
+}
+
+.footerContent {
+  padding: 4px 20px;
+}
+
+#footer a {
+  color: #DB5D00;
+}
+
+.t_accent {
+  color: #EDA312;
+}
+
+.nolink {
+  color: #6F9FC8;
+}
+
+.b {
+  font-weight: bold;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* -- Image -- */
+
+img {
+  border: 0px none;
+}
+
+.icon {
+  padding: 0px 1px;
+}
+
+.flag {
+  border: 1px solid #BBB;
+  margin: 0px 4px;
+}
+
+/* -- Utility classes to create the bottom rounded corners -- */
+
+a.commonLink {
+  color: #356AA0;
+  /*border-bottom: 1px solid #6F9FC8;*/
+}
+
+a.alphaLink {
+  color: #356AA0;
+  font-weight: bold;
+  /*border-bottom: 1px solid #B4DA45;*/
+}
+
+/* form */
+input.rconText, select.mapSelector {
+  width: 68%;
+  margin-top: 3px;
+}
+
+input.rconBtn {
+  margin-top: 3px;
+  margin-left: 7px;
+}
+
+#langSelectForm, #themeSelectForm {
+  display: inline;
+}
+
+#langSelectForm select {
+  background-color: #FFF;
+  border: 1px solid #000000;
+  color: #000000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 10px;
+  text-align: left;
+  text-transform: capitalize;
+  width: 90px;
+}
+
+#themeSelectForm select {
+  background-color: #FFF;
+  border: 1px solid #000000;
+  color: #000000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 10px;
+  text-align: left;
+  width: 90px;
+}
+
+
+
+/* Server Browser */
+
+#statusContainer {
+  float: left;
+  padding: 2px 12px 12px 12px;
+  width: 97%;
+}
+
+#playerTable {
+  font-family:arial;
+  background-color: #356AA0;
+  margin: 0px;
+  font-size: 8pt;
+  width: 100%;
+  text-align: left;
+}
+
+#playerTable thead tr th, #playerTable tfoot tr th {
+  color: #333;
+  background-color: #E7F9FF;
+  font-size: 8pt;
+  padding: 4px;
+}
+#playerTable thead tr .header {
+  background-image: url(../images/bg.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
+}
+#playerTable tbody td {
+  /*color: #FFF;*/
+  padding: 4px;
+}
+#playerTable tbody tr {
+  background-color: #F6F6F6;
+}
+#playerTable tbody .focused {
+  background-color: #FFF;
+}
+#playerTable tbody .botRow {
+  color: #999;
+}
+
+#playerTable thead tr .headerSortUp {
+  background-image: url(../images/asc.gif);
+}
+#playerTable thead tr .headerSortDown {
+  background-image: url(../images/desc.gif);
+}
+#playerTable thead tr .headerSortDown, #playerTable thead tr .headerSortUp {
+  color: #333;
+  background-color: #BCE1F4;
+}
+
+#browserModified {
+  text-align: right;
+  font-size: 0.8em;
+  padding-top: 3px;
+  padding-right: 8px;
+}
+
+#serverStatus{
+  background-color: #F6F6F6;
+}
+
+#mapImage {
+  float: left;
+  margin: 12px 6px;
+  text-align: center;
+}
+
+#mapImage img {
+  padding: 6px;
+  border: solid 1px #AAAAAA;
+}
+
+
+#serverInfo {
+  float: left;
+  margin: 12px 6px;
+  font-size: 0.8em;
+}
+
+#serverUseage {
+  float: right;
+  text-align: right;
+  font-family: arial, verdana, sans-serif;
+  margin: 12px 6px;
+  font-size: 0.7em;
+}
+
+#serverUseage .label {
+  border-bottom: 1px solid #000;
+}
+
+
+
+#searchBox {
+  width: 96%;
+  margin: auto;
+  background-color: #F6F6F6;
+  color: #113255;
+  font-size: 12px;
+}
+
+#demoFiles {
+  width: 96%;
+  margin: auto;
+  background-color: #F6F6F6;
+  color: #113255;
+}
+
+#listNoData {
+  width: 75%;
+  margin: 0px 25px 5px 40px;
+  padding-top: 5px;
+  font-weight: bold;
+  font-size: 1.0em;
+}
+
+.listItem {
+  width: 75%;
+  margin: 0px 14px 5px 14px;
+  padding-top: 5px;
+  font-size: 0.9em;
+  border-bottom: 2px solid #808183;
+}
+
+.listPlayers {
+  width: 75%;
+  margin: 0px 19px;
+  padding-bottom: 2px;
+  font-family:arial;
+  font-size: 9pt;
+}
+
+
+/* demo page */
+#dateSelectForm {
+  float: left;
+  padding: 12px 0px;
+}
+
+#searchForm {
+  float: left;
+  padding: 11px 0px;
+}
+
+#searchForm input {
+  padding: 1px;
+  margin: 0px 3px;
+  color: #000000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 10px;
+  text-align: left;
+  width: 128px;
+}
+
+#searchForm .searchBtn {
+  width: 50px;
+}
+
+#dateSelectForm select {
+  color: #000000;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size: 11px;
+  text-align: left;
+  width: 45px;
+}
+
+
+#dateSelectForm .yearSelector {
+  width: 65px;
+}
+
+.searchIcon {
+  padding: 13px 2px;
+  float: left;
+}
+
+.dtDemo {
+  color: #113255;
+}
+
+a.msLink {
+  font-weight: bold;
+  color: #113255;
+}
+
+.highlight {
+  font-weight: bold;
+  background-color: #A0FFFF;
+}

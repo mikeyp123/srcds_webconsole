@@ -1,0 +1,139 @@
+#{assign var="theme" value=$app->current_theme()}#
+#{include file="block/header.html"}#
+
+<body>
+
+<div id="mainContainer">
+
+  <div id="header">
+
+    <span class="roundedTopLeft"></span>
+
+    <span class="title">
+      SRCDS<span class="t_accent">WEB</span>CONSOLE
+      <span class="subTitle">
+        #{$app->title_hostname()}#
+      </span>
+    </span>
+    
+      <a href="#{$demo_page}#" title="demo" class="lastTab active">Demo</a>
+      <a href="#{$top_page}#" title="home">Home</a>
+    
+
+  </div>
+
+  <!-- Main Content -->
+  <div id="content">
+    <div id="centerContent">
+      <!-- center : search box. -->
+      <div id="searchBox">
+        <span class="roundedSubTopLeft"></span>
+        #{if $date_search_form}#
+            <img src="themes/#{$theme}#/images/datesearch.gif" alt="date search" title="search by date" class="searchIcon" style="padding-left: 20px;" />
+            <form action="#{$demo_page}#" method="get" id="dateSelectForm">
+              <div>
+                #{if $date_search_form.year}#
+                  <select name="year" class="dateSelector yearSelector">
+                    #{foreach from=$date_search_form.year item="year"}#
+                      <option value="#{$year}#"#{if $year == $date_search_form.year_selected}# selected="selected"#{/if}#>#{$year|default:'----'}#</option>
+                    #{/foreach}#
+                  </select>
+                #{/if}#
+                #{if $date_search_form.month}#
+                  <select name="month" class="dateSelector monthSelector">
+                    #{foreach from=$date_search_form.month item="month"}#
+                      <option value="#{$month}#"#{if $month == $date_search_form.month_selected}# selected="selected"#{/if}#>#{$month|default:'--'}#</option>
+                    #{/foreach}#
+                  </select>
+                #{/if}#
+                #{if $date_search_form.day}#
+                  <select name="day" class="dateSelector daySelector">
+                    #{foreach from=$date_search_form.day item="day"}#
+                      <option value="#{$day}#"#{if $day == $date_search_form.day_selected}# selected="selected"#{/if}#>#{$day|default:'--'}#</option>
+                    #{/foreach}#
+                  </select>
+                #{/if}#
+              </div>
+            </form>
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+    $(".dateSelector").change(function(){
+        $("#dateSelectForm").submit();
+    });
+});
+//]]>
+</script>
+        #{/if}#
+        #{if $use_db}#
+          <img src="themes/#{$theme}#/images/search.gif" alt="search" style="padding-left: 20px;" title="search by date" class="searchIcon" />
+          <form action="#{$demo_page}#" method="get" id="searchForm">
+            <div>
+              <span class="b">#{'Name'|translate}#/#{'SteamID'|translate}#</span><input type="text" name="search" value="#{$search}#" />
+              <span class="b">#{'Map'|translate}#</span><input type="text" name="map" value="#{$map}#" />
+              <input type="submit" value="search" class="searchBtn" />
+            </div>
+          </form>
+        #{/if}#
+        <div style="clear: left;"></div>
+      </div>
+      <!-- center : demo files. -->
+      #{strip}#
+      <div id="demoFiles">
+        #{foreach from=$list item='demo'}#
+          <div>
+            <div class="listItem">
+              <img src="themes/#{$theme}#/images/ok.gif" alt="ok" class="icon" />
+              <span class="dtDemo b">#{$demo.time|date:'y-m-d g:i a'}#</span>
+              &nbsp;<img src="themes/#{$theme}#/images/setting.gif" alt="map" class="icon" />
+                #{if $use_db}#
+                  <a href="#{$demo_page}#?map=#{$demo.info.map}#" class="msLink">
+                    #{$demo.info.map}#
+                  </a>
+                #{else}#
+                  <span class="b">#{$demo.info.map}#</span>
+                #{/if}#
+              #{if $app->config('demo_module', 'allow_download', '1')}#
+                &nbsp;<img src="themes/#{$theme}#/images/download.gif" alt="download" title="download" class="icon" />
+                <a href="#{$demo_dl_page}##{$demo.filename}#" class="alphaLink dlLink">#{'download'|translate}#</a>
+                (#{$demo.filesize|filesize_format}#)
+              #{/if}#
+            </div>
+          </div>
+          #{if $demo.players}#
+            <div class="listPlayers">
+              #{* <img src="themes/#{$theme}#/images/list.gif" alt="players" class="icon" />&nbsp;&nbsp; *}#
+              #{foreach from=$demo.players item="player" name="players"}#
+                #{if $use_db}#
+                  <a href="#{$demo_page}#?search=#{$player.steam_id}#" class="commonLink#{if $player.highlight}# highlight#{/if}#">
+                    #{$player.name}#
+                  </a>
+                #{else}#
+                  <span class="nolink">#{$player}#</span>
+                #{/if}#
+                #{if !$smarty.foreach.players.last}#
+                  &nbsp;&#10;
+                  &nbsp;
+                #{/if}#
+              #{/foreach}#
+            </div>
+          #{/if}#
+        #{foreachelse}#
+          <div id="listNoData">
+            <img src="themes/#{$theme}#/images/no.gif" alt="no data" class="icon" />
+            &nbsp;#{'Could not find any demo files.'|translate:search_no_result}#
+          </div>
+        #{/foreach}#
+        <span class="roundedSubBottomLeft"></span>
+      </div>
+    </div>
+  </div>
+  #{/strip}#
+  
+  #{include file="block/footer.html" referer="demo"}#
+  
+</div>
+
+</body>
+
+</html>

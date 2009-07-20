@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />  
+#{if $app->config('html', 'author')}#
+<meta name="author" content="#{$app->config('html', 'author')}#" />
+#{/if}#
+#{if $app->config('html', 'keywords')}#
+<meta name="keywords" content="#{$app->config('html', 'keywords')}#" />
+#{/if}#
+#{if $app->config('html', 'description')}#
+<meta name="description" content="#{$app->config('html', 'description')}#" />
+#{/if}#
+#{if $app->config('html', 'refresh')}#
+<meta http-equiv="refresh" content="#{$app->config('html', 'refresh')}#;URL=#{$top_page}#" />
+#{/if}#
+<link rel="stylesheet" type="text/css" href="themes/#{$theme}#/css/main.css" media="screen, tv, projection" />
+<link rel="stylesheet" type="text/css" href="static/css/thickbox.css" media="screen, tv, projection" />
+<title>srcds web console [#{$app->config('srcds', 'hostname')}#]</title>
+<script type="text/javascript" src="static/js/jquery.js"></script>
+<script type="text/javascript" src="static/js/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="static/js/metadata.js"></script>
+<script type="text/javascript" src="static/js/thickbox.js"></script>
+</head>

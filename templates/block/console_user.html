@@ -1,0 +1,22 @@
+#{strip}#
+#{if $section.appearance == 'button'}#
+  <form action="#{$do_rcon_page}#" method="post">
+    <span class="contentHeader">
+      #{$section.title|translate:"`$identifier`_title"}#
+    </span>
+    <input type="hidden" name="action" value="#{$identifier}#" />
+    <div class="rconInterface">
+      <input type="submit" value="#{$section.label|translate:"`$identifier`_label"}#" class="rconBtn" />
+    </div>
+  </form>
+#{else}# #{** text link **}#
+  <span class="contentHeader">
+    #{$section.title|translate:"`$identifier`_title"}#
+  </span>
+  <div class="rconInterface">
+    <a href="#{$do_rcon_page}#?action=#{$identifier}#" class="alphaLink">
+      #{$section.label|translate:"`$identifier`_label"}#
+    </a>
+  </div>
+#{/if}#
+#{/strip}#
